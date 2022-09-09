@@ -1,21 +1,21 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        
         ans=[]
         stack=[]
-        def run(openn,closen):
+        
+        def backtrack(openn,closedn):
+            if openn==closedn==n:
+                ans.append(''.join(stack))
+                return ans
             
-            if openn==closen==n:
-                ans.append("".join(stack)) 
-                return
             if openn<n:
                 stack.append('(')
-                run(openn+1,closen)
+                backtrack(openn+1,closedn)
                 stack.pop()
-            if closen<openn:
+            if closedn<openn:
                 stack.append(')')
-                run(openn,closen+1)
+                backtrack(openn,closedn+1)
                 stack.pop()
-            
-        run(0,0)
-        return ans
+        
+        backtrack(0,0)        
+        return ans 
