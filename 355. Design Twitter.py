@@ -6,7 +6,7 @@ class Twitter:
         self.tweet=defaultdict(list)
 
     def postTweet(self, userId: int, tweetId: int) -> None:
-        self.tweet[userId].append(tweetId)
+        self.tweet[userId].append([self.count,tweetId])
         self.count-=1
     
     def getNewsFeed(self, userId: int) -> List[int]:
@@ -16,21 +16,21 @@ class Twitter:
         for followeeId in self.following[userId]:
             if followeeId in self.tweet:
                 index=len(self.tweet[followeeId])-1
-                count,tweetid=self.tweet[followeeId][index]
+                count,tweetid = self.tweet[followeeId][index]
                 minheap.append([count,tweetid,followeeId,index-1])
         heapq.heapify(minheap)
 
         while minheap and len(ans)<10:
             count,tweet,followeeId,index=heapq.heappop(minheap)
             ans.append(tweet)
-            if index>0:
+            if index>=0:
                 count,tweetId=self.tweet[followeeId][index]
                 heapq.heappush(minheap,[count,tweetId,followeeId,index-1])
         return ans        
 
 
     def follow(self, followerId: int, followeeId: int) -> None:
-        self.following[followerId].add(foloweeId)
+        self.following[followerId].add(followeeId)
         
 
     def unfollow(self, followerId: int, followeeId: int) -> None:
