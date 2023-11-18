@@ -4,49 +4,40 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+
+    def mergeLists(self,l1,l2):
+            ans=ListNode()
+            tail=ans
+
+            while l1 and l2:
+                if l1.val<l2.val:
+                    tail.next=l1
+                    l1=l1.next
+                else:
+                    tail.next=l2
+                    l2=l2.next
+                tail=tail.next
+            while l1:
+                tail.next=l1
+                l1=l1.next
+                tail=tail.next
+            while l2:
+                tail.next=l2
+                l2=l2.next
+                tail=tail.next
+            return ans.next 
+
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        temp=[]
-        tot=0
-        for i in range(0,len(lists)):
-            curr=lists[i]
-            while curr!=None:
-                temp.append(curr.val)
-                curr=curr.next
+        if not lists or len(lists)==0:
+            return None
 
-        def mergesort(temp):
-            if len(temp)>1:
-                mid=len(temp)//2
-                l=temp[:mid]
-                r=temp[mid:]
-                mergesort(l)
-                mergesort(r)
-            
-                i=j=k=0
-            
-                while i<len(l) and j<len(r):
-                    if l[i]<r[j]:
-                        temp[k]=l[i]
-                        i+=1
-                    else:
-                        temp[k]=r[j]
-                        j+=1
-                    k+=1
-                while i <len(l):
-                    temp[k]=l[i]
-                    i+=1
-                    k+=1
-                while j<len(r):
-                    temp[k]=r[j]
-                    j+=1
-                    k+=1
-            return temp
-        temp=mergesort(temp)
+        ans=ListNode()
 
-        dummy=ListNode()
-        ans=dummy
-        for num in temp:
-            ans.next=ListNode(num)
-            ans=ans.next
-            
-
-        return dummy.next
+        while len(lists)>1:
+            temp=[]
+            for i in range(0,len(lists),2):
+                l1=lists[i]
+                l2=lists[i+1] if (i+1)<len(lists) else None
+                temp.append(self.mergeLists(l1,l2))
+            lists=temp
+        return lists[0]    
