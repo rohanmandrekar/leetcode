@@ -8,8 +8,6 @@ class Solution:
                 repeat.remove(s[l])
                 l+=1
             repeat.add(s[i])
-            ans=max(ans,i-l+1)
+            ans=max(ans,len(repeat))
             
-        return ans    
-                
-        
+        return ans 
