@@ -1,11 +1,9 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
-        ans = collections.defaultdict(list)
-        
-        for s in strs:
+        groups=collections.defaultdict(list)
+        for word in strs:
             count=[0]*26
-            for c in s:
-                count[ord(c)-ord('a')]+=1
-            ans[tuple(count)].append(s)    
-            
-        return ans.values()
+            for c in word:
+                count[ord(c)-ord('z')]+=1
+            groups[tuple(count)].append(word)
+        return groups.values() 
