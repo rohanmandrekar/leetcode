@@ -29,10 +29,21 @@
 ##                    return ans        
 
            
+# class Solution:
+#     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+#         dic={}
+#         for n in nums:
+#             dic[n]=1+dic.get(n,0)  
+#         ans=dict(sorted(dic.items(), key=lambda item: item[1])[-k:])
+#         return ans.keys()
+
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         dic={}
-        for n in nums:
-            dic[n]=1+dic.get(n,0)  
-        ans=dict(sorted(dic.items(), key=lambda item: item[1])[-k:])
-        return ans.keys()
+        for i in nums:
+            if i in dic:
+                dic[i]=dic[i]+1
+            else:
+                dic[i]=1
+        ans=sorted(dic.keys(),key=dic.get,reverse=True)
+        return ans[:k]       
